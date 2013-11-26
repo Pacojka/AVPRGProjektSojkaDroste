@@ -9,7 +9,7 @@ class VideoEngine
 public:
 	VideoEngine();
 	virtual ~VideoEngine(void);
-	bool open(const std::string& path);
+	bool open();
 	void run();
 	virtual void showVideoFrame(const cv::Mat& videoFrame);
 	virtual void processFrame(const cv::Mat& videoFrame, cv::Mat& processedFrame);

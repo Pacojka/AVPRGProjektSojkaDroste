@@ -10,7 +10,7 @@ VideoEngine::VideoEngine(void)
 VideoEngine::~VideoEngine(void)
 {
 }
-bool VideoEngine::open(const std::string& path){
+bool VideoEngine::open(){
 	videoCapture.open(0);
 	if (videoCapture.isOpened()){
 		frameNumber = 0;
