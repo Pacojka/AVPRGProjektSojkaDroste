@@ -4,7 +4,8 @@
 using namespace cv;
 
 Webcamtracking::Webcamtracking(void){
-	debugDraw = false;
+	debugDraw = true;
+	flipImg = true;
 	namedWindow("Video");
 	namedWindow("Result");
 }
@@ -23,6 +24,10 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 	std::vector<cv::Rect> eyes;
 
 	videoFrame.copyTo(processedFrame);
+
+	//Webcamflip
+	if(flipImg == true)
+	cv::flip(processedFrame, processedFrame, 0);
 	//gesichtserkennung
 	facedetector.detect(processedFrame, faces);
 	

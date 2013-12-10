@@ -20,5 +20,6 @@ private:
 	DrawOnFace drawOnFace;
 
 	bool debugDraw;
+	bool flipImg;
 };
 #endif

@@ -3,7 +3,7 @@ using namespace cv;
 
 DetectFaces::DetectFaces(){
 	//PFAD MUSS ANGEPASST WERDEN :D
-	face_cascade = CascadeClassifier("C:\\OpenCV2.4.2\\opencv\\data\\haarcascades\\haarcascade_frontalface_default.xml");
+	face_cascade = CascadeClassifier("D:\\openCV\\opencv\\data\\haarcascades\\haarcascade_frontalface_default.xml");
 
 }
 DetectFaces::~DetectFaces(){}
