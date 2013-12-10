@@ -1,6 +1,7 @@
 #ifndef _WEBCAMTRACKING_H
 #define _WEBCAMTRACKING_H
 #include "VideoEngine.h"
+#include "DetectFaces.h"
 class Webcamtracking: public VideoEngine
 {
 public:
@@ -11,5 +12,6 @@ public:
 	virtual void showProcessedFrame(const cv::Mat&processedFrame);
 private:
 	//cv::Mat firstFrame;
+	DetectFaces facedetector;
 };
 #endif

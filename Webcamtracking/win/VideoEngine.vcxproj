@@ -11,12 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\source\DetectFaces.cpp" />
     <ClCompile Include="..\source\findEyeRanzig.cpp" />
     <ClCompile Include="..\source\Webcamtracking.cpp" />
     <ClCompile Include="..\source\VideoEngine.cpp" />
     <ClCompile Include="..\source\WebcamtrackingMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\DetectFaces.h" />
     <ClInclude Include="..\source\findEyeRanzig.h" />
     <ClInclude Include="..\source\Webcamtracking.h" />
     <ClInclude Include="..\source\VideoEngine.h" />

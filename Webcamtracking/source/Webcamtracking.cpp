@@ -1,5 +1,5 @@
 #include "Webcamtracking.h"
-#include "findEyeRanzig.h"
+
 
 using namespace cv;
 
@@ -17,17 +17,18 @@ void Webcamtracking::showVideoFrame(const cv::Mat& videoFrame){
 
 void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedFrame){
 	//Lokale Variablen
-	Point augensohn;
-	augensohn = Point(10,10);
-	
-
 	Mat test;
-	videoFrame.copyTo(test);
-	findEye(test, augensohn);
-
+	std::vector<cv::Rect> faces;
 
 	videoFrame.copyTo(processedFrame);
-	line(processedFrame,augensohn, Point(0,0), Scalar(255,255,0), 1);
+	//gesichtserkennung
+	facedetector.detect(processedFrame, faces);
+	
+	//rects zeichnen
+    for (int i = 0; i < faces.size(); i++)
+        {
+            rectangle(processedFrame, faces[i], Scalar(0,255,0));
+        }
 }
 void Webcamtracking::showProcessedFrame(const cv::Mat&processedFrame){
 	imshow("Result", processedFrame);
