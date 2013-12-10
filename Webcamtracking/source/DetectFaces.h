@@ -10,6 +10,5 @@ public:
 	void detect(cv::Mat& videoFrame, std::vector<cv::Rect>& faces);
 private:
 	cv::CascadeClassifier face_cascade;
-	//cv::Mat firstFrame;
 };
 #endif

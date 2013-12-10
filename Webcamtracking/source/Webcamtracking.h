@@ -2,6 +2,9 @@
 #define _WEBCAMTRACKING_H
 #include "VideoEngine.h"
 #include "DetectFaces.h"
+#include "DetectEyes.h"
+#include "DrawOnFace.h"
+
 class Webcamtracking: public VideoEngine
 {
 public:
@@ -13,5 +16,9 @@ public:
 private:
 	//cv::Mat firstFrame;
 	DetectFaces facedetector;
+	DetectEyes eyesdetector;
+	DrawOnFace drawOnFace;
+
+	bool debugDraw;
 };
 #endif
