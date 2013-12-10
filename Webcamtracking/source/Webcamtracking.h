@@ -1,15 +1,15 @@
-#ifndef _BACKGROUNDSUBSTRACTION_H
-#define _BACKGROUNDSUBSTRACTION_H
+#ifndef _WEBCAMTRACKING_H
+#define _WEBCAMTRACKING_H
 #include "VideoEngine.h"
-class Backgroundsubstraction: public VideoEngine
+class Webcamtracking: public VideoEngine
 {
 public:
-	Backgroundsubstraction(void);
-	~Backgroundsubstraction(void);
+	Webcamtracking(void);
+	~Webcamtracking(void);
 	virtual void showVideoFrame(const cv::Mat& videoFrame);
 	virtual void processFrame(const cv::Mat& videoFrame, cv::Mat& processedFrame);
 	virtual void showProcessedFrame(const cv::Mat&processedFrame);
 private:
-	cv::Mat firstFrame;
+	//cv::Mat firstFrame;
 };
 #endif
