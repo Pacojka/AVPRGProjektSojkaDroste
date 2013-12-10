@@ -52,6 +52,7 @@ void Backgroundsubstraction::showVideoFrame(const cv::Mat& videoFrame){
 void Backgroundsubstraction::processFrame(const cv::Mat& videoFrame, cv::Mat& processedFrame){
 	Mat hsvFrame;
 	vector<Mat> hsvPlanes;
+	vector<Mat> hsvEyePlanes;
 	cvtColor(videoFrame, hsvFrame, CV_BGR2HSV);
 	split(hsvFrame, hsvPlanes);
 
@@ -70,9 +71,12 @@ void Backgroundsubstraction::processFrame(const cv::Mat& videoFrame, cv::Mat& pr
 	hsvPlanes[1].copyTo(processedFrame2);
 	hsvPlanes[2].copyTo(processedFrame3);
 	
-	Mat testAuge = imread("C:\\Users\\User\\Pictures\\testauge.png");
+	//Mat testAuge = imread("D:\\Studium\\HAW\\WS2013-2014\\AudioVideoPRG\\Projekt\\auge.png");
+	Mat testAuge = imread("D:\\Studium\\HAW\\WS2013-2014\\AudioVideoPRG\\Projekt\\augeSATURATION.png");
+	split(testAuge, hsvEyePlanes);
+
 	Mat result;
-	matchTemplate(videoFrame, testAuge, result, 3);
+	matchTemplate(processedFrame2, hsvEyePlanes[1], result, 3);
 	Point augensohn; 
 	Mat mask;
 
@@ -82,6 +86,8 @@ void Backgroundsubstraction::processFrame(const cv::Mat& videoFrame, cv::Mat& pr
 
 	imshow("Saturation", processedFrame2);	 
 	imshow("Value", processedFrame3);
+	imshow("lul", result);
+
 
 
 }
