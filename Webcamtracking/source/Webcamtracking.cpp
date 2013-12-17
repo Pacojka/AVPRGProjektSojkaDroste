@@ -8,6 +8,7 @@ Webcamtracking::Webcamtracking(void){
 	flipImg = true;
 	namedWindow("Video");
 	namedWindow("Result");
+	//createButton("Brille", NULL); ???? - für button benutzen?
 }
 
 Webcamtracking::~Webcamtracking(void){
