@@ -7,6 +7,7 @@ int main(){
 	//const string videoPath = "c:/Entwicklung/micro-dance.mpeg";
 	Webcamtracking app;
 	if (app.open()){
+
 		app.run();
 	}
 }
