@@ -34,7 +34,7 @@ void DrawOnFace::drawOnFace(cv::Mat& resultFrame, cv::Rect& faceRect, cv::Rect& 
 		//rectangle(resultFrame, Rect(leftEyeRect.x,leftEyeRect.y, rightEyeRect.x+rightEyeRect.width-leftEyeRect.x, rightEyeRect.y+rightEyeRect.height-leftEyeRect.y), Scalar(0,0,0));
 
 	//Mat für Brille initialisieren (inkl. Alphakanal)
-		Mat glasses = imread("C:\\Users\\User\\Pictures\\brille.png", -1);
+		Mat glasses = imread("brille.png", -1);
 
 	//Brillengröße=(Brillenabstand/Augenabstand)
 		float scaleFactor = ((float) glasses.cols /((rightEyeRect.x+rightEyeRect.width) - leftEyeRect.x));
@@ -51,7 +51,7 @@ void DrawOnFace::drawOnFace(cv::Mat& resultFrame, cv::Rect& faceRect, cv::Rect& 
 
 	//HUT
 	//Mat für Hut initialisieren (inkl. Alphakanal)
-		Mat hat = imread("C:\\Users\\User\\Pictures\\hut.png", -1);
+		Mat hat = imread("hut.png", -1);
 
 		cout << endl << "hat.cols vor resize"	<< hat.cols << endl;
 
