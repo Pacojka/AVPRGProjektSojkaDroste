@@ -12,7 +12,7 @@ void DetectEyes::detect(cv::Mat& videoFrame, cv::Rect& faceRect, std::vector<cv:
 	Mat face = videoFrame(faceRect);
 	Mat grayFrame;
 	cvtColor(face, grayFrame, CV_BGR2GRAY);
-	eye_cascade.detectMultiScale(grayFrame, eyes, 1.1, 3, 0, Size(), Size());
+	eye_cascade.detectMultiScale(grayFrame, eyes, 1.05, 3, 0, Size(), Size());
 	
 	for (int i = 0; i < eyes.size(); i++)
         {

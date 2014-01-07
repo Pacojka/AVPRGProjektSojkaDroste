@@ -11,5 +11,5 @@ void DetectFaces::detect(cv::Mat& videoFrame, std::vector<cv::Rect>& faces){
 	//Profile laden
 	Mat grayFrame;
 	cvtColor(videoFrame, grayFrame, CV_BGR2GRAY);
-	face_cascade.detectMultiScale(grayFrame, faces, 2, 3, 0, Size(), Size());
+	face_cascade.detectMultiScale(grayFrame, faces, 1.3, 3, 0, Size(100,100), Size());
 }
