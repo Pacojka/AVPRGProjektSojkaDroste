@@ -53,8 +53,6 @@ void DrawOnFace::drawOnFace(cv::Mat& resultFrame, cv::Rect& faceRect, cv::Rect& 
 	//Mat für Hut initialisieren (inkl. Alphakanal)
 		Mat hat = imread("hut.png", -1);
 
-		cout << endl << "hat.cols vor resize"	<< hat.cols << endl;
-
 		
 		resize(hat, hat, Size(), 4.f/scaleFactor, 4.f/scaleFactor, INTER_LINEAR);
 
