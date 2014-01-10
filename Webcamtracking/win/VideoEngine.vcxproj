@@ -14,6 +14,7 @@
     <ClCompile Include="..\source\DetectEyes.cpp" />
     <ClCompile Include="..\source\DetectFaces.cpp" />
     <ClCompile Include="..\source\DrawOnFace.cpp" />
+    <ClCompile Include="..\source\mousecallback.cpp" />
     <ClCompile Include="..\source\Webcamtracking.cpp" />
     <ClCompile Include="..\source\VideoEngine.cpp" />
     <ClCompile Include="..\source\WebcamtrackingMain.cpp" />
@@ -22,6 +23,7 @@
     <ClInclude Include="..\source\DetectEyes.h" />
     <ClInclude Include="..\source\DetectFaces.h" />
     <ClInclude Include="..\source\DrawOnFace.h" />
+    <ClInclude Include="..\source\mousecallback.h" />
     <ClInclude Include="..\source\Webcamtracking.h" />
     <ClInclude Include="..\source\VideoEngine.h" />
   </ItemGroup>

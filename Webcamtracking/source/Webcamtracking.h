@@ -20,6 +20,9 @@ private:
 	DrawOnFace drawOnFace;
 
 	bool debugDraw;
+	bool overlayImages;
+	bool detectEyes;
+
 	bool flipImg;
 };
 #endif
