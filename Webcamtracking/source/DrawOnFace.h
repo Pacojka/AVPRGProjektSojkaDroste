@@ -7,7 +7,7 @@ class DrawOnFace
 public:
 	DrawOnFace(void);
 	~DrawOnFace(void);
-	void drawOnFace(cv::Mat& resultFrame, cv::Rect& faceRect, cv::Rect& leftEyeRect, cv::Rect& rightEyeRect);
+	void drawOnFace(cv::Mat& resultFrame, cv::Rect& faceRect, cv::Rect& leftEyeRect, cv::Rect& rightEyeRect, bool showHat, bool showGlasses);
 private:
 	cv::Mat glassesImg;
 	cv::Mat hatImg;

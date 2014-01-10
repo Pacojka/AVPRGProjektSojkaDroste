@@ -34,10 +34,10 @@ void DrawOnFace::overlayImage(Mat &background, Mat &overlay)
 	
 }
 
-void DrawOnFace::drawOnFace(cv::Mat& resultFrame, cv::Rect& faceRect, cv::Rect& leftEyeRect, cv::Rect& rightEyeRect){
+void DrawOnFace::drawOnFace(cv::Mat& resultFrame, cv::Rect& faceRect, cv::Rect& leftEyeRect, cv::Rect& rightEyeRect, bool showHat, bool showGlasses){
 		
-	if(true)	drawGlasses(resultFrame, faceRect, leftEyeRect, rightEyeRect);
-	if(true)	drawHat(resultFrame, faceRect, leftEyeRect, rightEyeRect);
+	if(showGlasses)drawGlasses(resultFrame, faceRect, leftEyeRect, rightEyeRect);
+	if(showHat)drawHat(resultFrame, faceRect, leftEyeRect, rightEyeRect);
 
 }
 

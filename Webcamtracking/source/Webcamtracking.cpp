@@ -75,9 +75,9 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 					eyes.insert(eyes.end(),pairOfEyes.begin(), pairOfEyes.end());
 					if(overlayImages){
 					//Bilder überlagern
-							Rect leftEye = pairOfEyes[0].x < pairOfEyes[1].x?pairOfEyes[0]:pairOfEyes[1];
-							Rect rightEye = pairOfEyes[1].x < pairOfEyes[0].x?pairOfEyes[0]:pairOfEyes[1];
-							drawOnFace.drawOnFace(frameCopy, faces[i], leftEye, rightEye);
+						Rect leftEye = pairOfEyes[0].x < pairOfEyes[1].x?pairOfEyes[0]:pairOfEyes[1];
+						Rect rightEye = pairOfEyes[1].x < pairOfEyes[0].x?pairOfEyes[0]:pairOfEyes[1];
+						drawOnFace.drawOnFace(frameCopy, faces[i], leftEye, rightEye, showhat, showglasses);
 					}
 				}
 			}
