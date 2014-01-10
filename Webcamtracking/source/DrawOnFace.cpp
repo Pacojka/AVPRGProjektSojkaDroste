@@ -2,11 +2,17 @@
 #include <math.h>
 using namespace cv;
 
-DrawOnFace::DrawOnFace(){}
+DrawOnFace::DrawOnFace(){
+
+glassesImg = imread("brille.png", -1);
+hatImg = imread("hut.png", -1);
+float scaleFactor;
+
+}
 DrawOnFace::~DrawOnFace(){}
 
 
-void overlayImage(Mat &background, Mat &overlay)
+void DrawOnFace::overlayImage(Mat &background, Mat &overlay)
 {
 	int cut = overlay.size().height-background.size().height;
 	for(int y = 0; y < background.rows; y++){
@@ -23,20 +29,25 @@ void overlayImage(Mat &background, Mat &overlay)
 						//Übereinanderlegen der beiden Werte
 							background.data[y*background.step + background.channels()*x + c] = bgPx * (1.-opacity) + ovPx * opacity;
 						}
-				//delete &opacity;
 		}
 	}
 	
 }
 
 void DrawOnFace::drawOnFace(cv::Mat& resultFrame, cv::Rect& faceRect, cv::Rect& leftEyeRect, cv::Rect& rightEyeRect){
+		
+	if(true)	drawGlasses(resultFrame, faceRect, leftEyeRect, rightEyeRect);
+	if(true)	drawHat(resultFrame, faceRect, leftEyeRect, rightEyeRect);
 
+}
 
-	//Mat für Brille initialisieren (inkl. Alphakanal)
-		Mat glasses = imread("brille.png", -1);
-				
+void DrawOnFace::drawGlasses(cv::Mat& resultFrame, cv::Rect& faceRect, cv::Rect& leftEyeRect, cv::Rect& rightEyeRect){
+	//Mat für Brille initialisieren
+		Mat glasses;
+		glassesImg.copyTo(glasses);
+
 	//Brillengröße=(Brillenabstand/Augenabstand) errechnen
-		float scaleFactor = ((float) glasses.cols / ((rightEyeRect.x+rightEyeRect.width) - leftEyeRect.x));
+		scaleFactor = ((float) glasses.cols / ((rightEyeRect.x+rightEyeRect.width) - leftEyeRect.x));
 
 	//Brillengröße dem Skalierungsfaktor entsprechend verändern
 		resize(glasses, glasses, Size(), (1.f/scaleFactor), (1.f/scaleFactor),INTER_LINEAR);
@@ -53,20 +64,15 @@ void DrawOnFace::drawOnFace(cv::Mat& resultFrame, cv::Rect& faceRect, cv::Rect& 
 
 	//Temporäres Material zum kopieren der Brille erstellen
 		Mat faceRect_temp(faceRect.size(),glasses.type(),Scalar(0,0,0,0)); 
-
-
-		namedWindow("GET REKT");
-		
+				
 	//Rotationspunkt für Rotation der Brille (respektive des temporären Mats) erstellen
 		Point2f rotPt(((a.x+b.x)/2.f)-faceRect.x,((a.y+b.y)/2.f)-faceRect.y);
 		
 	//Region of Interest zum kopieren der Brille ins temporäre Mat erstellen
 		Mat glassesROI_temp = faceRect_temp(Rect(Point2f((((a.x+b.x)/2.f)-faceRect.x)-glasses.size().width/2.f,((a.y+b.y)/2.f)-faceRect.y-glasses.size().height/2.f), glasses.size()));
-		std::cout << "Out of Bounds 1" << std::endl;
+		
 	//Brille per overlayImage mit Alphakanal in diese ROI kopieren
 		overlayImage(glassesROI_temp, glasses);
-
-		imshow("GET REKT", faceRect_temp);
 
 	//Rotationsmatrix für Rotation der Brille (respektive des temporären Mats) erstellen/berechnen
 		Mat rotMat = getRotationMatrix2D(rotPt, -rota, 1.0);
@@ -74,25 +80,28 @@ void DrawOnFace::drawOnFace(cv::Mat& resultFrame, cv::Rect& faceRect, cv::Rect& 
 		warpAffine(faceRect_temp, faceRect_temp, rotMat, faceRect_temp.size());
 	//Das temporäre Mat per overlayImage auf das resultFrame kopieren
 		overlayImage(resultFrame(faceRect), faceRect_temp);
-		std::cout << "Out of Bounds 2" << std::endl;
-		
-		
-	//HUT
-	//Mat für Hut initialisieren (inkl. Alphakanal)
-		/*Mat hat = imread("hut.png", -1);
+}
 
+void DrawOnFace::drawHat(cv::Mat& resultFrame, cv::Rect& faceRect, cv::Rect& leftEyeRect, cv::Rect& rightEyeRect){
+
+	//Material für Hut initialisieren
+		Mat hat;
+		hatImg.copyTo(hat);
 		
+	//Skalierungsfaktor anhand der Brille berechnen
+		scaleFactor = ((float) glassesImg.cols / ((rightEyeRect.x+rightEyeRect.width) - leftEyeRect.x));
+
+	//Hut skalieren
 		resize(hat, hat, Size(), 4.f/scaleFactor, 4.f/scaleFactor, INTER_LINEAR);
-
-		int hatHeight = 1;
+		
+	//Huthöhe verringern sobald man an den Bildrand stößt
+		int hatHeight;
 		if(faceRect.y-100 <= 0) hatHeight = hat.size().height+faceRect.y-100; else hatHeight=hat.size().height;
 
-		//cout << endl << "1 hatHeight: " << hatHeight << endl;
-
-		//Mat hatROI = resultFrame(Rect(faceRect.x+50,max(faceRect.y-100,0),hat.size().width,hatHeight));
+	//Region of Interest für Hut festlegen	
 		Mat hatROI = resultFrame(Rect(leftEyeRect.x,max((leftEyeRect.y-((rightEyeRect.x+rightEyeRect.width) - leftEyeRect.x))-(hat.size().height/3),0),hat.size().width,hatHeight));
 
-		overlayImage(hatROI, hat);*/
-				
-		
+	//Hut per overlayImage in die ROI einfügen	
+		overlayImage(hatROI, hat);
+
 }
