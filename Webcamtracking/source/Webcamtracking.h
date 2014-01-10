@@ -4,6 +4,7 @@
 #include "DetectFaces.h"
 #include "DetectEyes.h"
 #include "DrawOnFace.h"
+using namespace cv;
 
 class Webcamtracking: public VideoEngine
 {
@@ -22,7 +23,23 @@ private:
 	bool debugDraw;
 	bool overlayImages;
 	bool detectEyes;
-
 	bool flipImg;
+	
+	bool rescaleButtons;
+	int buttonHeight;
+	int buttonWidth;
+	int buttonAnz;
+	Mat changeglasses;
+	Mat changehat;
+	Mat screenshot;
+
+
+	Mat showglassesOff;
+	Mat showglassesOn;
+	Mat showhatOff;
+	Mat showhatOn;
+	
+	bool showglasses;
+	bool showhat;
 };
 #endif

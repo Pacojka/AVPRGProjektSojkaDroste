@@ -8,7 +8,7 @@ bool mouseLeftButtonUp = false;
 void mouseCallback1(int event, int x, int y, int flags, void*param){
 	if(event == cv::EVENT_LBUTTONDOWN){
 		mouseLeftButtonUp = true;
+		mouseClickPositionX = x;
+		mouseClickPositionY = y;
 	}
-	mouseClickPositionX = x;
-	mouseClickPositionY = y;
 }
