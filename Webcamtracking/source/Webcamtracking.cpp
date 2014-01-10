@@ -6,7 +6,7 @@ Webcamtracking::Webcamtracking(void){
 	debugDraw = false;
 	overlayImages = true;
 	detectEyes = true;	
-	flipImg = true;
+	flipImg = false;
 	rescaleButtons = true;
 	namedWindow("Result");
 	setMouseCallback("Result", mouseCallback1);
