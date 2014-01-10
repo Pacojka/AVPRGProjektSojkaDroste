@@ -30,14 +30,14 @@ void VideoEngine::run(){
 			break;
 		}
 		frameNumber++;
-		showVideoFrame(videoFrame);
+		calcButtonsize(videoFrame);
 		Mat processedFrame;
 		processFrame(videoFrame, processedFrame);
 		showProcessedFrame(processedFrame);
 		waitKey(30);
 	}
 }
-void VideoEngine::showVideoFrame(const Mat&videoFrame){
+void VideoEngine::calcButtonsize(const Mat&videoFrame){
 	
 }
 void VideoEngine::processFrame(const Mat&videoFrame, Mat& processedFrame){

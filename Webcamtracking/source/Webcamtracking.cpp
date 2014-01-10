@@ -3,12 +3,11 @@
 #include <sstream>
 using namespace cv;
 Webcamtracking::Webcamtracking(void){
-	debugDraw = true;
-	overlayImages = false;
-	detectEyes = false;
+	debugDraw = false;
+	overlayImages = true;
+	detectEyes = true;
 	flipImg = false;
 	rescaleButtons = true;
-	namedWindow("Video");
 	namedWindow("Result");
 	setMouseCallback("Result", mouseCallback1);
 
@@ -31,8 +30,7 @@ Webcamtracking::Webcamtracking(void){
 Webcamtracking::~Webcamtracking(void){
 	destroyAllWindows();
 }
-void Webcamtracking::showVideoFrame(const cv::Mat& videoFrame){
-	imshow("Video", videoFrame);
+void Webcamtracking::calcButtonsize(const cv::Mat& videoFrame){
 	//Buttons skalieren sobald videoFrame verfügbar ist
 	if(rescaleButtons){
 		rescaleButtons = false;
@@ -66,38 +64,27 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 	//gesichtserkennung
 	facedetector.detect(frameCopy, faces);
 	
-	/*
-	//ausgabe größe der gesichter
-	for (int i = 0; i < faces.size(); i++)
-		{
-			std::cout << std::endl << std::endl << "Groeße Gesicht:" << faces[i].height << "x" << faces[i].width << std::endl;
-		}	
-
-	*/
-
 	if(detectEyes){
 		//augenerkennung
 		if(faces.size()>0){
-			std::vector<cv::Rect> pairOfEyes;
 			for (int i = 0; i < faces.size(); i++)
 			{
-				std::cout << "Groeße Gesicht:" << faces[i].height << "x" << faces[i].width << std::endl;
+				std::vector<cv::Rect> pairOfEyes;
 				eyesdetector.detect(frameCopy,faces[i],pairOfEyes);
-				if(pairOfEyes.size() == 2)eyes.insert(eyes.end(), pairOfEyes.begin(), pairOfEyes.end());
+				if(pairOfEyes.size() == 2){
+					eyes.insert(eyes.end(),pairOfEyes.begin(), pairOfEyes.end());
+					if(overlayImages){
+					//Bilder überlagern
+							Rect leftEye = pairOfEyes[0].x < pairOfEyes[1].x?pairOfEyes[0]:pairOfEyes[1];
+							Rect rightEye = pairOfEyes[1].x < pairOfEyes[0].x?pairOfEyes[0]:pairOfEyes[1];
+							drawOnFace.drawOnFace(frameCopy, faces[i], leftEye, rightEye);
+					}
+				}
 			}
-			//std::cout << eyes.size() << std::endl;
 		}
 	}
 
-	if(overlayImages){
-	//Bilder überlagern
-		for (int i = 0; i < eyes.size(); i+=2)
-        {
-            Rect leftEye = eyes[i].x < eyes[i+1].x?eyes[i]:eyes[i+1];
-			Rect rightEye = eyes[i].x < eyes[i+1].x?eyes[i+1]:eyes[i];
-			drawOnFace.drawOnFace(frameCopy, faces[i/2], leftEye, rightEye);
-        }
-	}
+
 	//Debug rects zeichnen
 		if(debugDraw){
 			for (int i = 0; i < faces.size(); i++)
@@ -131,23 +118,25 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
       case 'E':
         detectEyes = detectEyes == true?false:true;
         break;
+
     }
 
+	if(debugDraw){
+		std::ostringstream os;
+		os  << "(D)ebugDraw = " << (debugDraw == true?"true":"false");
+		putText(frameCopy, os.str(), Point(5,15), FONT_HERSHEY_SIMPLEX, .4, debugDraw == true?Scalar(0, 255, 0):Scalar(0, 0, 255));
+		os.str("");
+		os.clear();
+		os  << "Detect(E)yes = " << (detectEyes == true?"true":"false");
+		putText(frameCopy, os.str(), Point(5,30), FONT_HERSHEY_SIMPLEX, .4, detectEyes == true?Scalar(0, 255, 0):Scalar(0, 0, 255));
+		os.str("");
+		os.clear();
+		os  << "overlay(I)mages = " << (overlayImages == true?"true":"false");
+		putText(frameCopy, os.str(), Point(5,45), FONT_HERSHEY_SIMPLEX, .4, overlayImages == true?Scalar(0, 255, 0):Scalar(0, 0, 255));
+		os.str("");
+		os.clear();
+	}
 	
-	std::ostringstream os;
-	os  << "(D)ebugDraw = " << (debugDraw == true?"true":"false");
-	putText(frameCopy, os.str(), Point(5,15), FONT_HERSHEY_SIMPLEX, .4, debugDraw == true?Scalar(0, 255, 0):Scalar(0, 0, 255));
-	os.str("");
-	os.clear();
-	os  << "Detect(E)yes = " << (detectEyes == true?"true":"false");
-	putText(frameCopy, os.str(), Point(5,30), FONT_HERSHEY_SIMPLEX, .4, detectEyes == true?Scalar(0, 255, 0):Scalar(0, 0, 255));
-	os.str("");
-	os.clear();
-	os  << "overlay(I)mages = " << (overlayImages == true?"true":"false");
-	putText(frameCopy, os.str(), Point(5,45), FONT_HERSHEY_SIMPLEX, .4, overlayImages == true?Scalar(0, 255, 0):Scalar(0, 0, 255));
-	os.str("");
-	os.clear();
-
 	//AusgabeFrame Vorbereiten
 	
 	processedFrame = Mat(frameCopy.rows+buttonHeight, frameCopy.cols, frameCopy.type());
@@ -222,6 +211,20 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
 			mouseLeftButtonUp = false;
 			std::cout << "screenshot geklickt an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
+			//Bild Speichern
+			String name = "Screenshot";
+			int number = 1;
+			bool nichtfertig = true;
+			String filename;
+			while(nichtfertig){
+				std::stringstream ss;
+				ss << name << number << ".jpg";
+				filename = ss.str();
+				Mat imagedummy = imread(filename);
+				if(imagedummy.empty())nichtfertig = false;
+				else number ++;
+			}
+			imwrite( filename, frameCopy );
 		}
 	}
 	//Richtigen Button zeichnen
