@@ -4,13 +4,28 @@ using namespace cv;
 
 DrawOnFace::DrawOnFace(){
 
-glassesImg = imread("brille.png", -1);
-hatImg = imread("hut.png", -1);
+glassesImg = imread("brille0.png", -1);
+hatImg = imread("hut0.png", -1);
 float scaleFactor;
-
+hatIndex = 0;
+glassesIndex = 0;
 }
 DrawOnFace::~DrawOnFace(){}
 
+const static string hatArray[4] = {"hut0.png","hut1.png","hut2.png","hut3.png"};
+const static string glassesArray[4] = {"brille0.png","brille1.png","brille2.png","brille3.png"};
+
+void DrawOnFace::toggleHat(){
+	hatIndex = (hatIndex+1)%4;
+	std::string temp = hatArray[hatIndex];
+	hatImg = imread(temp, -1);
+}
+
+void DrawOnFace::toggleGlasses(){
+	glassesIndex = (glassesIndex+1)%4;
+	std::string temp = glassesArray[glassesIndex];
+	glassesImg = imread(temp, -1);
+}
 
 void DrawOnFace::overlayImage(Mat &background, Mat &overlay)
 {

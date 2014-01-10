@@ -5,8 +5,8 @@ using namespace cv;
 Webcamtracking::Webcamtracking(void){
 	debugDraw = false;
 	overlayImages = true;
-	detectEyes = true;
-	flipImg = false;
+	detectEyes = true;	
+	flipImg = true;
 	rescaleButtons = true;
 	namedWindow("Result");
 	setMouseCallback("Result", mouseCallback1);
@@ -155,6 +155,7 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
 			mouseLeftButtonUp = false;
 			std::cout << "changeglasses an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
+			drawOnFace.toggleGlasses();
 		}
 	}
 	//Richtigen Button zeichnen
@@ -183,6 +184,7 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
 			mouseLeftButtonUp = false;
 			std::cout << "changeHat geklickt an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
+			drawOnFace.toggleHat();
 		}
 	}
 	//Richtigen Button zeichnen
