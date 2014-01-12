@@ -11,6 +11,8 @@ Webcamtracking::Webcamtracking(void){
 	namedWindow("Result");
 	setMouseCallback("Result", mouseCallback1);
 
+	screenshotMessageTimer = 0;
+	screenshotMessage = "";
 	showglasses = true;
 	showhat = true;
 	//Buttonbilder laden
@@ -226,11 +228,29 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 				if(imagedummy.empty())nichtfertig = false;
 				else number ++;
 			}
-			imwrite( filename, frameCopy );
+			screenshotMessageTimer = 45;
+			screenshotSaved = imwrite(filename, frameCopy);
+			if(screenshotSaved){
+				screenshotMessage = "Screenshot erfolgreich aufgezeichnet.";
+			}else{
+				screenshotMessage = "Screenshot konnte nicht erstellt werden.";
+
+			}
+
+
 		}
 	}
 	//Richtigen Button zeichnen
 	screenshot.copyTo(processedFrame(Rect(position,screenshot.size())));
+	
+	//wenn screenshot aufgezeichnet wurde Nachricht einblenden
+	if(screenshotMessageTimer > 0){
+		screenshotMessageTimer--;
+
+		std::ostringstream os;
+		os  << screenshotMessage;
+		putText(processedFrame, os.str(), Point(15,processedFrame.size().height-15), FONT_HERSHEY_DUPLEX, .8, screenshotSaved == true?Scalar(0, 255, 0):Scalar(0, 0, 255));
+	}
 	
 }
 void Webcamtracking::showProcessedFrame(const cv::Mat&processedFrame){
