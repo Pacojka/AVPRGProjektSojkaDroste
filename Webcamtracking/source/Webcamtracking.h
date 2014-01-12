@@ -46,5 +46,22 @@ private:
 	
 	bool showglasses;
 	bool showhat;
+
+	bool environmentNo;
+	bool environmentA;
+	bool environmentB;
+	bool environmentC;
+	bool environmentD;
+	Mat environmentNo_on;
+	Mat environmentNo_off;
+	Mat environmentA_on;
+	Mat environmentA_off;
+	Mat environmentB_on;
+	Mat environmentB_off;
+	Mat environmentC_on;
+	Mat environmentC_off;
+	Mat environmentD_on;
+	Mat environmentD_off;
+	
 };
 #endif
