@@ -170,7 +170,13 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 	
 	//AusgabeFrame Vorbereiten
 	if(environmentNo == false && (environmentA || environmentB || environmentC || environmentD)){
-		drawEnvironment.drawEnvironment(frameCopy);
+		int envnumber;
+		if(environmentA)envnumber = 1;
+		else if(environmentB)envnumber = 2;
+		else if(environmentC)envnumber = 3;
+		else if(environmentD)envnumber = 4;
+
+		drawEnvironment.drawEnvironment(frameCopy,envnumber);
 	}
 	
 	processedFrame = Mat(frameCopy.rows+buttonHeight*2, frameCopy.cols, frameCopy.type());
@@ -179,7 +185,7 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 	
 	//Buttons Zeichen und prüfen ob sie angeklickt wurden
 	Point position;
-
+	//obere ButtonLeiste
 	//Button #1 changeGlasses
 	position = Point(0*buttonWidth,0);
 
@@ -268,13 +274,129 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 				screenshotMessage = "Screenshot konnte nicht erstellt werden.";
 
 			}
-
-
 		}
 	}
 	//Richtigen Button zeichnen
 	screenshot.copyTo(processedFrame(Rect(position,screenshot.size())));
 	
+	//Untere Buttonleiste
+
+	//Button #6 noEnvironment
+	position = Point(0*buttonWidth,processedFrame.size().height-buttonHeight);
+
+	//Klick auswerten
+	if(mouseLeftButtonUp){
+		if(mouseClickPositionX >=position.x && mouseClickPositionX <= position.x+buttonWidth
+			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
+			mouseLeftButtonUp = false;
+			std::cout << "no environment an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
+			if(!environmentNo){
+				environmentNo = true;
+				environmentA = false;
+				environmentB = false;
+				environmentC = false;
+				environmentD = false;
+			}
+		}
+	}
+	//Richtigen Button zeichnen
+	if(environmentNo)environmentNo_on.copyTo(processedFrame(Rect(position,environmentNo_on.size())));
+	else environmentNo_off.copyTo(processedFrame(Rect(position,environmentNo_off.size())));
+
+	//Button #7 EnvironmentA
+	position = Point(1*buttonWidth,processedFrame.size().height-buttonHeight);
+
+	//Klick auswerten
+	if(mouseLeftButtonUp){
+		if(mouseClickPositionX >=position.x && mouseClickPositionX <= position.x+buttonWidth
+			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
+			mouseLeftButtonUp = false;
+			std::cout << "no environment an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
+			if(!environmentA){
+				environmentNo = false;
+				environmentA = true;
+				environmentB = false;
+				environmentC = false;
+				environmentD = false;
+			}
+		}
+	}
+	//Richtigen Button zeichnen
+	if(environmentA)environmentA_on.copyTo(processedFrame(Rect(position,environmentA_on.size())));
+	else environmentA_off.copyTo(processedFrame(Rect(position,environmentA_off.size())));
+
+	//Button #8 EnvironmentB
+	position = Point(2*buttonWidth,processedFrame.size().height-buttonHeight);
+
+	//Klick auswerten
+	if(mouseLeftButtonUp){
+		if(mouseClickPositionX >=position.x && mouseClickPositionX <= position.x+buttonWidth
+			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
+			mouseLeftButtonUp = false;
+			std::cout << "no environment an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
+			if(!environmentB){
+				environmentNo = false;
+				environmentA = false;
+				environmentB = true;
+				environmentC = false;
+				environmentD = false;
+			}
+		}
+	}
+	//Richtigen Button zeichnen
+	if(environmentB)environmentB_on.copyTo(processedFrame(Rect(position,environmentB_on.size())));
+	else environmentB_off.copyTo(processedFrame(Rect(position,environmentB_off.size())));
+
+	//Button #9 EnvironmentC
+	position = Point(3*buttonWidth,processedFrame.size().height-buttonHeight);
+
+	//Klick auswerten
+	if(mouseLeftButtonUp){
+		if(mouseClickPositionX >=position.x && mouseClickPositionX <= position.x+buttonWidth
+			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
+			mouseLeftButtonUp = false;
+			std::cout << "no environment an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
+			if(!environmentC){
+				environmentNo = false;
+				environmentA = false;
+				environmentB = false;
+				environmentC = true;
+				environmentD = false;
+			}
+		}
+	}
+	//Richtigen Button zeichnen
+	if(environmentC)environmentC_on.copyTo(processedFrame(Rect(position,environmentC_on.size())));
+	else environmentC_off.copyTo(processedFrame(Rect(position,environmentC_off.size())));
+
+	//Button #10 EnvironmentD
+	position = Point(4*buttonWidth,processedFrame.size().height-buttonHeight);
+
+	//Klick auswerten
+	if(mouseLeftButtonUp){
+		if(mouseClickPositionX >=position.x && mouseClickPositionX <= position.x+buttonWidth
+			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
+			mouseLeftButtonUp = false;
+			std::cout << "no environment an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
+			if(!environmentD){
+				environmentNo = false;
+				environmentA = false;
+				environmentB = false;
+				environmentC = false;
+				environmentD = true;
+			}
+		}
+	}
+	//Richtigen Button zeichnen
+	if(environmentD)environmentD_on.copyTo(processedFrame(Rect(position,environmentD_on.size())));
+	else environmentD_off.copyTo(processedFrame(Rect(position,environmentD_off.size())));
+
+
+
+
+
+
+
 	//wenn screenshot aufgezeichnet wurde Nachricht einblenden
 	if(screenshotMessageTimer > 0){
 		screenshotMessageTimer--;
