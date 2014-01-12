@@ -8,6 +8,6 @@ int main(){
 	Webcamtracking app;
 	if (app.open()){
 
-		app.run();
+	app.run();
 	}
 }
