@@ -39,15 +39,19 @@ void DrawEnvironment::drawEnvironment(Mat &processedFrame, int number){
 	case 1:
 	resize(processedFrame_temp, processedFrame(env1_ROI), env1_size);
 	overlayImage(processedFrame, environment1);
+	break;
 	case 2:
 	resize(processedFrame_temp, processedFrame(env2_ROI), env2_size);
 	overlayImage(processedFrame, environment2);
+	break;
 	case 3:
 	resize(processedFrame_temp, processedFrame(env3_ROI), env3_size);
 	overlayImage(processedFrame, environment3);
+	break;
 	case 4:
 	resize(processedFrame_temp, processedFrame(env4_ROI), env4_size);
 	overlayImage(processedFrame, environment4);
+	break;
 	}
 	
 }
