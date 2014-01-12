@@ -1,65 +1,53 @@
 #include "DrawEnvironment.h"
+#include "overlayImage.h"
 using namespace cv;
 
 DrawEnvironment::DrawEnvironment(){
+
 }
 DrawEnvironment::~DrawEnvironment(){}
 
-
-void DrawEnvironment::overlayImage(Mat &background, Mat &overlay)
-{
-	int cut = overlay.size().height-background.size().height;
-	for(int y = 0; y < background.rows; y++){
-		for(int x = 0; x < background.cols; x++){
-			//Opacity ("Durchsichtigkeit") des aktuelles Pixels berechnen -> (Alphakanal / 255) = [0-1]
-				double opacity = ((double)overlay.data[(y+cut) * overlay.step + x * overlay.channels() + 3]) / 255.f;
-					//Fuer jeden Channel einzeln die Opacity setzen
-						for(int c = 0; opacity > 0 && c < background.channels(); c++)
-						{
-						//ovPx = aktueller (Uchar-)Wert des Overlaybildes
-							uchar ovPx = overlay.data[(y+cut) * overlay.step + x * overlay.channels() + c];
-						//bgPx = aktueller (Uchar-)Wert des Hintergrundbildes
-							uchar bgPx = background.data[y * background.step + x * background.channels() + c];
-						//Übereinanderlegen der beiden Werte
-							background.data[y*background.step + background.channels()*x + c] = bgPx * (1.-opacity) + ovPx * opacity;
-						}
-		}
-	}
-	
+void DrawEnvironment::initialize(int width, int height){
+	environment1 = imread("env_TV.png", -1);
+	environment2 = imread("env_TV.png", -1);
+	environment3 = imread("env_TV.png", -1);
+	environment4 = imread("env_TV.png", -1);
+	environmentWidth = environment1.size().width;
+	environmentHeight = environment1.size().height;
+	resize(environment1, environment1, Size(width, height));
+	resize(environment2, environment2, Size(width, height));
+	resize(environment3, environment3, Size(width, height));
+	resize(environment4, environment4, Size(width, height));
+	environmentScaleHeight = (float) environment1.size().height/environmentHeight;
+	environmentScaleWidth = (float) environment1.size().width/environmentWidth;
+	env1_ROI = Rect(Point(70*environmentScaleWidth,130*environmentScaleHeight),Size(913*environmentScaleWidth,669*environmentScaleHeight));
+	env2_ROI = Rect(Point(70*environmentScaleWidth,130*environmentScaleHeight),Size(913*environmentScaleWidth,669*environmentScaleHeight));
+	env3_ROI = Rect(Point(70*environmentScaleWidth,130*environmentScaleHeight),Size(913*environmentScaleWidth,669*environmentScaleHeight));
+	env4_ROI = Rect(Point(70*environmentScaleWidth,130*environmentScaleHeight),Size(913*environmentScaleWidth,669*environmentScaleHeight));
+	env1_size = Size(913*environmentScaleWidth,669*environmentScaleHeight);
+	env2_size = Size(913*environmentScaleWidth,669*environmentScaleHeight);
+	env3_size = Size(913*environmentScaleWidth,669*environmentScaleHeight);
+	env4_size = Size(913*environmentScaleWidth,669*environmentScaleHeight);
 }
 
 
-
-void DrawEnvironment::drawEnvironment(Mat &processedFrame){
-
-	Mat environment = imread("env_TV.png", -1);
-	double environmentScaleWidth = 0.f;
-	double environmentScaleHeight = 0.f;
-	int environmentWidth = environment.size().width;
-	int environmentHeight = environment.size().height;
-
-	std::cout << "enviromentWidth: " << environmentWidth << std::endl;
-	std::cout << "enviromentHeight: " << environmentHeight << std::endl;
-	std::cout << "processedFrame.size(): " << processedFrame.size() << std::endl;
-
-	resize(environment, environment, processedFrame.size());
-
-	std::cout << "environment.size(): " << environment.size() << std::endl;
-
-	environmentScaleHeight = (float) environment.size().height/environmentHeight;
-	environmentScaleWidth = (float) environment.size().width/environmentWidth;
-
-	std::cout << "enviromentScaleWidth: " << environmentScaleWidth << std::endl;
-	std::cout << "enviromentScaleHeight: " << environmentScaleHeight << std::endl;
+void DrawEnvironment::drawEnvironment(Mat &processedFrame, int number){
 
 	Mat processedFrame_temp;
-	resize(processedFrame, processedFrame_temp, Size(913*environmentScaleWidth,669*environmentScaleHeight));
-
-	Mat environment_BG(processedFrame.size(), processedFrame.type());
-	Mat frameROI = environment_BG(Rect(Point(70*environmentScaleWidth,130*environmentScaleHeight),Size(913*environmentScaleWidth,669*environmentScaleHeight)));
-
-	processedFrame_temp.copyTo(frameROI);
-	overlayImage(environment_BG, environment);
-	environment_BG.copyTo(processedFrame);
+	processedFrame.copyTo(processedFrame_temp);
+	switch(number){
+	case 1:
+	resize(processedFrame_temp, processedFrame(env1_ROI), env1_size);
+	overlayImage(processedFrame, environment1);
+	case 2:
+	resize(processedFrame_temp, processedFrame(env2_ROI), env2_size);
+	overlayImage(processedFrame, environment2);
+	case 3:
+	resize(processedFrame_temp, processedFrame(env3_ROI), env3_size);
+	overlayImage(processedFrame, environment3);
+	case 4:
+	resize(processedFrame_temp, processedFrame(env4_ROI), env4_size);
+	overlayImage(processedFrame, environment4);
+	}
 	
 }

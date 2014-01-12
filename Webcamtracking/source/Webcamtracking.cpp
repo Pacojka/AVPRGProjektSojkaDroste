@@ -35,6 +35,7 @@ Webcamtracking::~Webcamtracking(void){
 void Webcamtracking::calcButtonsize(const cv::Mat& videoFrame){
 	//Buttons skalieren sobald videoFrame verfügbar ist
 	if(rescaleButtons){
+		drawEnvironment.initialize(videoFrame.size().width, videoFrame.size().height);
 		rescaleButtons = false;
 		double buttonWidthDummy = (double) videoFrame.size().width/buttonAnz;
 		double scaleFactor = buttonWidthDummy * (1.f/changeglasses.size().width);
@@ -141,7 +142,7 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 	
 	//AusgabeFrame Vorbereiten
 
-	drawEnvironment.drawEnvironment(frameCopy);
+	drawEnvironment.drawEnvironment(frameCopy, 1);
 
 	
 	processedFrame = Mat(frameCopy.rows+buttonHeight, frameCopy.cols, frameCopy.type());
