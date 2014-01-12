@@ -8,10 +8,10 @@ DrawEnvironment::DrawEnvironment(){
 DrawEnvironment::~DrawEnvironment(){}
 
 void DrawEnvironment::initialize(int width, int height){
-	environment1 = imread("env_TV.png", -1);
-	environment2 = imread("env_News.png", -1);
-	environment3 = imread("env_Cinema.png", -1);
-	environment4 = imread("env_Frame.png", -1);
+	environment1 = imread("img\\env_TV.png", -1);
+	environment2 = imread("img\\env_News.png", -1);
+	environment3 = imread("img\\env_Cinema.png", -1);
+	environment4 = imread("img\\env_Frame.png", -1);
 	environmentWidth = environment1.size().width;
 	environmentHeight = environment1.size().height;
 	resize(environment1, environment1, Size(width, height));

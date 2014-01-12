@@ -12,7 +12,7 @@ class Webcamtracking: public VideoEngine
 public:
 	Webcamtracking(void);
 	~Webcamtracking(void);
-	virtual void calcButtonsize(const cv::Mat& videoFrame);
+	virtual void calcAssetssize(const cv::Mat& videoFrame);
 	virtual void processFrame(const cv::Mat& videoFrame, cv::Mat& processedFrame);
 	virtual void showProcessedFrame(const cv::Mat&processedFrame);
 private:

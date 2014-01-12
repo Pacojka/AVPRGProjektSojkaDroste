@@ -3,7 +3,7 @@ using namespace cv;
 
 DetectEyes::DetectEyes(){
 	//PFAD MUSS ANGEPASST WERDEN :D
-	eye_cascade = CascadeClassifier("haarcascade_eye.xml");
+	eye_cascade = CascadeClassifier("data\\haarcascade_eye.xml");
 	//eye_cascade = CascadeClassifier("haarcascade_eye_tree_eyeglasses.xml");
 
 }

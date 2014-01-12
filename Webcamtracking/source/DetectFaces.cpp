@@ -3,7 +3,7 @@ using namespace cv;
 
 DetectFaces::DetectFaces(){
 	//PFAD MUSS ANGEPASST WERDEN :D
-	face_cascade = CascadeClassifier("haarcascade_frontalface_default.xml");
+	face_cascade = CascadeClassifier("data\\haarcascade_frontalface_default.xml");
 
 }
 DetectFaces::~DetectFaces(){}

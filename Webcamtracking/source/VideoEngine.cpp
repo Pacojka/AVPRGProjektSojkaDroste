@@ -30,14 +30,15 @@ void VideoEngine::run(){
 			break;
 		}
 		frameNumber++;
-		calcButtonsize(videoFrame);
+		calcAssetssize(videoFrame);
 		Mat processedFrame;
 		processFrame(videoFrame, processedFrame);
 		showProcessedFrame(processedFrame);
-		waitKey(30);
+		char k = waitKey(30);
+		if(k == 'Q' || k == 'q' || k == 'ESC' || k == 27)break;
 	}
 }
-void VideoEngine::calcButtonsize(const Mat&videoFrame){
+void VideoEngine::calcAssetssize(const Mat&videoFrame){
 	
 }
 void VideoEngine::processFrame(const Mat&videoFrame, Mat& processedFrame){

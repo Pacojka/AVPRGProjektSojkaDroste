@@ -25,30 +25,31 @@ Webcamtracking::Webcamtracking(void){
 	buttonHeight = 0;
 	buttonWidth = 0;
 	buttonAnz = 5;
-	changeglasses = imread("changeglasses.jpg", -1);
-	changehat = imread("changehat.jpg", -1);
-	showglassesOff = imread("showglasses_off.jpg", -1);
-	showglassesOn = imread("showglasses_on.jpg", -1);
-	showhatOff = imread("showhat_off.jpg", -1);
-	showhatOn = imread("showhat_on.jpg", -1);
-	environmentNo_on = imread("noenvironment_on.jpg", -1);
-	environmentNo_off = imread("noenvironment_off.jpg", -1);
-	environmentA_on = imread("environmentA_on.jpg", -1);
-	environmentA_off = imread("environmentA_off.jpg", -1);
-	environmentB_on = imread("environmentB_on.jpg", -1);
-	environmentB_off = imread("environmentB_off.jpg", -1);
-	environmentC_on = imread("environmentC_on.jpg", -1);
-	environmentC_off = imread("environmentC_off.jpg", -1);
-	environmentD_on = imread("environmentD_on.jpg", -1);
-	environmentD_off = imread("environmentD_off.jpg", -1);
 	
-	screenshot = imread("screenshot.jpg", -1);
+	changeglasses = imread("img\\changeglasses.jpg", -1);
+	changehat = imread("img\\changehat.jpg", -1);
+	showglassesOff = imread("img\\showglasses_off.jpg", -1);
+	showglassesOn = imread("img\\showglasses_on.jpg", -1);
+	showhatOff = imread("img\\showhat_off.jpg", -1);
+	showhatOn = imread("img\\showhat_on.jpg", -1);
+	environmentNo_on = imread("img\\noenvironment_on.jpg", -1);
+	environmentNo_off = imread("img\\noenvironment_off.jpg", -1);
+	environmentA_on = imread("img\\environmentA_on.jpg", -1);
+	environmentA_off = imread("img\\environmentA_off.jpg", -1);
+	environmentB_on = imread("img\\environmentB_on.jpg", -1);
+	environmentB_off = imread("img\\environmentB_off.jpg", -1);
+	environmentC_on = imread("img\\environmentC_on.jpg", -1);
+	environmentC_off = imread("img\\environmentC_off.jpg", -1);
+	environmentD_on = imread("img\\environmentD_on.jpg", -1);
+	environmentD_off = imread("img\\environmentD_off.jpg", -1);
+	
+	screenshot = imread("img//screenshot.jpg", -1);
 }
 
 Webcamtracking::~Webcamtracking(void){
 	destroyAllWindows();
 }
-void Webcamtracking::calcButtonsize(const cv::Mat& videoFrame){
+void Webcamtracking::calcAssetssize(const cv::Mat& videoFrame){
 	//Buttons skalieren sobald videoFrame verfügbar ist
 	if(rescaleButtons){
 		drawEnvironment.initialize(videoFrame.size().width, videoFrame.size().height);
@@ -149,7 +150,12 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
       case 'E':
         detectEyes = detectEyes == true?false:true;
         break;
-
+      case 'Q':
+        //
+        break;
+      case 'q':
+        //
+		break;
     }
 
 	if(debugDraw){
@@ -194,7 +200,6 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 		if(mouseClickPositionX >=position.x && mouseClickPositionX <= position.x+buttonWidth
 			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
 			mouseLeftButtonUp = false;
-			std::cout << "changeglasses an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
 			drawOnFace.toggleGlasses();
 		}
 	}
@@ -209,7 +214,6 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
 			mouseLeftButtonUp = false;
 			showglasses = showglasses==true?false:true;
-			std::cout << "Showglasses geklickt an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
 		}
 	}
 	//Richtigen Button zeichnen
@@ -223,7 +227,6 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 		if(mouseClickPositionX >=position.x && mouseClickPositionX <= position.x+buttonWidth
 			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
 			mouseLeftButtonUp = false;
-			std::cout << "changeHat geklickt an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
 			drawOnFace.toggleHat();
 		}
 	}
@@ -238,7 +241,6 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
 			mouseLeftButtonUp = false;
 			showhat = showhat==true?false:true;
-			std::cout << "Showhat geklickt an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
 		}
 	}
 	//Richtigen Button zeichnen
@@ -252,9 +254,8 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 		if(mouseClickPositionX >=position.x && mouseClickPositionX <= position.x+buttonWidth
 			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
 			mouseLeftButtonUp = false;
-			std::cout << "screenshot geklickt an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
 			//Bild Speichern
-			String name = "Screenshot";
+			String name = "Screenshots\\Screenshot";
 			int number = 1;
 			bool nichtfertig = true;
 			String filename;
@@ -289,7 +290,6 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 		if(mouseClickPositionX >=position.x && mouseClickPositionX <= position.x+buttonWidth
 			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
 			mouseLeftButtonUp = false;
-			std::cout << "no environment an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
 			if(!environmentNo){
 				environmentNo = true;
 				environmentA = false;
@@ -311,7 +311,6 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 		if(mouseClickPositionX >=position.x && mouseClickPositionX <= position.x+buttonWidth
 			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
 			mouseLeftButtonUp = false;
-			std::cout << "no environment an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
 			if(!environmentA){
 				environmentNo = false;
 				environmentA = true;
@@ -333,7 +332,6 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 		if(mouseClickPositionX >=position.x && mouseClickPositionX <= position.x+buttonWidth
 			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
 			mouseLeftButtonUp = false;
-			std::cout << "no environment an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
 			if(!environmentB){
 				environmentNo = false;
 				environmentA = false;
@@ -355,7 +353,6 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 		if(mouseClickPositionX >=position.x && mouseClickPositionX <= position.x+buttonWidth
 			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
 			mouseLeftButtonUp = false;
-			std::cout << "no environment an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
 			if(!environmentC){
 				environmentNo = false;
 				environmentA = false;
@@ -377,7 +374,6 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 		if(mouseClickPositionX >=position.x && mouseClickPositionX <= position.x+buttonWidth
 			&& mouseClickPositionY >=position.y && mouseClickPositionY <= position.y+buttonHeight){
 			mouseLeftButtonUp = false;
-			std::cout << "no environment an Position: (" << mouseClickPositionX << "," << mouseClickPositionY <<")" << std::endl;
 			if(!environmentD){
 				environmentNo = false;
 				environmentA = false;
@@ -391,19 +387,13 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 	if(environmentD)environmentD_on.copyTo(processedFrame(Rect(position,environmentD_on.size())));
 	else environmentD_off.copyTo(processedFrame(Rect(position,environmentD_off.size())));
 
-
-
-
-
-
-
 	//wenn screenshot aufgezeichnet wurde Nachricht einblenden
 	if(screenshotMessageTimer > 0){
 		screenshotMessageTimer--;
 
 		std::ostringstream os;
 		os  << screenshotMessage;
-		putText(processedFrame, os.str(), Point(15,processedFrame.size().height-15), FONT_HERSHEY_DUPLEX, .8, screenshotSaved == true?Scalar(0, 255, 0):Scalar(0, 0, 255));
+		putText(processedFrame, os.str(), Point(15,processedFrame.size().height-15-buttonHeight), FONT_HERSHEY_DUPLEX, .8, screenshotSaved == true?Scalar(0, 255, 0):Scalar(0, 0, 255));
 	}
 }
 void Webcamtracking::showProcessedFrame(const cv::Mat&processedFrame){

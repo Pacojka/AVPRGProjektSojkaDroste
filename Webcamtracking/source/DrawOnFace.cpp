@@ -5,16 +5,16 @@ using namespace cv;
 
 DrawOnFace::DrawOnFace(){
 
-glassesImg = imread("brille0.png", -1);
-hatImg = imread("hut0.png", -1);
+glassesImg = imread("img\\brille0.png", -1);
+hatImg = imread("img\\hut0.png", -1);
 float scaleFactor;
 hatIndex = 0;
 glassesIndex = 0;
 }
 DrawOnFace::~DrawOnFace(){}
 
-const static string hatArray[4] = {"hut0.png","hut1.png","hut2.png","hut3.png"};
-const static string glassesArray[4] = {"brille0.png","brille1.png","brille2.png","brille3.png"};
+const static string hatArray[4] = {"img\\hut0.png","img\\hut1.png","img\\hut2.png","img\\hut3.png"};
+const static string glassesArray[4] = {"img\\brille0.png","img\\brille1.png","img\\brille2.png","img\\brille3.png"};
 
 void DrawOnFace::toggleHat(){
 	hatIndex = (hatIndex+1)%4;

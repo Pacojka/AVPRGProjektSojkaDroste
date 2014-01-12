@@ -1,6 +1,9 @@
 #include "overlayImage.h"
 using namespace cv;
-
+ /*
+	Der Quelltext zu dieser Funktion ist eine abgeänderter Version des von Michael Jepson in seinem Blog geposteten Quelltextes zum Überlagern transparenter *.png Dateien.
+	Zu finden unter: http://jepsonsblog.blogspot.de/2012/10/overlay-transparent-image-in-opencv.html
+ */
 void overlayImage(Mat &background, Mat &overlay)
 {
 	int cut = overlay.size().height-background.size().height;
