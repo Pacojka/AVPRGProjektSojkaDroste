@@ -6,7 +6,7 @@ Webcamtracking::Webcamtracking(void){
 	debugDraw = false;
 	overlayImages = true;
 	detectEyes = true;	
-	flipImg = false;
+	flipImg = true;
 	rescaleButtons = true;
 	namedWindow("Result");
 	setMouseCallback("Result", mouseCallback1);
@@ -140,6 +140,9 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 	}
 	
 	//AusgabeFrame Vorbereiten
+
+	drawEnvironment.drawEnvironment(frameCopy);
+
 	
 	processedFrame = Mat(frameCopy.rows+buttonHeight, frameCopy.cols, frameCopy.type());
 	frameCopy.copyTo(processedFrame(Rect(Point(0,buttonHeight),frameCopy.size())));
@@ -251,7 +254,6 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 		os  << screenshotMessage;
 		putText(processedFrame, os.str(), Point(15,processedFrame.size().height-15), FONT_HERSHEY_DUPLEX, .8, screenshotSaved == true?Scalar(0, 255, 0):Scalar(0, 0, 255));
 	}
-	
 }
 void Webcamtracking::showProcessedFrame(const cv::Mat&processedFrame){
 	imshow("Result", processedFrame);

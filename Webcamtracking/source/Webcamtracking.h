@@ -4,6 +4,7 @@
 #include "DetectFaces.h"
 #include "DetectEyes.h"
 #include "DrawOnFace.h"
+#include "DrawEnvironment.h"
 using namespace cv;
 
 class Webcamtracking: public VideoEngine
@@ -19,6 +20,7 @@ private:
 	DetectFaces facedetector;
 	DetectEyes eyesdetector;
 	DrawOnFace drawOnFace;
+	DrawEnvironment drawEnvironment;
 
 	bool debugDraw;
 	bool overlayImages;
@@ -29,13 +31,13 @@ private:
 	int buttonHeight;
 	int buttonWidth;
 	int buttonAnz;
-	int screenshotMessageTimer;
-	std::string screenshotMessage;
-	bool screenshotSaved;
 	Mat changeglasses;
 	Mat changehat;
 	Mat screenshot;
 
+	int screenshotMessageTimer;
+	std::string screenshotMessage;
+	bool screenshotSaved;
 
 	Mat showglassesOff;
 	Mat showglassesOn;

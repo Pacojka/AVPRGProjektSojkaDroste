@@ -10,6 +10,5 @@ public:
 	void drawEnvironment(cv::Mat& processedFrame);
 private:
 	void DrawEnvironment::overlayImage(cv::Mat& background, cv::Mat& overlay);
-}
-
+};
 #endif
