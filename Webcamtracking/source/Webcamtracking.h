@@ -29,6 +29,9 @@ private:
 	int buttonHeight;
 	int buttonWidth;
 	int buttonAnz;
+	int screenshotMessageTimer;
+	std::string screenshotMessage;
+	bool screenshotSaved;
 	Mat changeglasses;
 	Mat changehat;
 	Mat screenshot;
