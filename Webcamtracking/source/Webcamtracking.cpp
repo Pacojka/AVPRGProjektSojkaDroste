@@ -6,7 +6,7 @@ Webcamtracking::Webcamtracking(void){
 	debugDraw = false;
 	overlayImages = true;
 	detectEyes = true;	
-	flipImg = true;
+	flipImg = false;
 	rescaleButtons = true;
 	namedWindow("Result");
 	setMouseCallback("Result", mouseCallback1);
@@ -15,6 +15,12 @@ Webcamtracking::Webcamtracking(void){
 	screenshotMessage = "";
 	showglasses = true;
 	showhat = true;
+
+	environmentNo = true;
+	environmentA = false;
+	environmentB = false;
+	environmentC = false;
+	environmentD = false;
 	//Buttonbilder laden
 	buttonHeight = 0;
 	buttonWidth = 0;
@@ -25,6 +31,16 @@ Webcamtracking::Webcamtracking(void){
 	showglassesOn = imread("showglasses_on.jpg", -1);
 	showhatOff = imread("showhat_off.jpg", -1);
 	showhatOn = imread("showhat_on.jpg", -1);
+	environmentNo_on = imread("noenvironment_on.jpg", -1);
+	environmentNo_off = imread("noenvironment_off.jpg", -1);
+	environmentA_on = imread("environmentA_on.jpg", -1);
+	environmentA_off = imread("environmentA_off.jpg", -1);
+	environmentB_on = imread("environmentB_on.jpg", -1);
+	environmentB_off = imread("environmentB_off.jpg", -1);
+	environmentC_on = imread("environmentC_on.jpg", -1);
+	environmentC_off = imread("environmentC_off.jpg", -1);
+	environmentD_on = imread("environmentD_on.jpg", -1);
+	environmentD_off = imread("environmentD_off.jpg", -1);
 	
 	screenshot = imread("screenshot.jpg", -1);
 }
@@ -47,6 +63,18 @@ void Webcamtracking::calcButtonsize(const cv::Mat& videoFrame){
 		resize(showhatOff, showhatOff, Size(), scaleFactor, scaleFactor,INTER_LINEAR);
 		resize(showhatOn, showhatOn, Size(), scaleFactor, scaleFactor,INTER_LINEAR);
 		resize(screenshot, screenshot, Size(), scaleFactor, scaleFactor,INTER_LINEAR);
+		
+		resize(environmentNo_on, environmentNo_on, Size(), scaleFactor, scaleFactor,INTER_LINEAR);
+		resize(environmentNo_off, environmentNo_off, Size(), scaleFactor, scaleFactor,INTER_LINEAR);
+		resize(environmentA_on, environmentA_on, Size(), scaleFactor, scaleFactor,INTER_LINEAR);
+		resize(environmentA_off, environmentA_off, Size(), scaleFactor, scaleFactor,INTER_LINEAR);
+		resize(environmentB_on, environmentB_on, Size(), scaleFactor, scaleFactor,INTER_LINEAR);
+		resize(environmentB_off, environmentB_off, Size(), scaleFactor, scaleFactor,INTER_LINEAR);
+		resize(environmentC_on, environmentC_on, Size(), scaleFactor, scaleFactor,INTER_LINEAR);
+		resize(environmentC_off, environmentC_off, Size(), scaleFactor, scaleFactor,INTER_LINEAR);
+		resize(environmentD_on, environmentD_on, Size(), scaleFactor, scaleFactor,INTER_LINEAR);
+		resize(environmentD_off, environmentD_off, Size(), scaleFactor, scaleFactor,INTER_LINEAR);
+		
 		buttonHeight = screenshot.size().height;
 		buttonWidth = screenshot.size().width;
 	}
@@ -140,11 +168,12 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 	}
 	
 	//AusgabeFrame Vorbereiten
-
-	drawEnvironment.drawEnvironment(frameCopy);
-
+	if(environmentNo == false && (environmentA || environmentB || environmentC || environmentD)){
+		drawEnvironment.drawEnvironment(frameCopy);
+	}
 	
-	processedFrame = Mat(frameCopy.rows+buttonHeight, frameCopy.cols, frameCopy.type());
+	
+	processedFrame = Mat(frameCopy.rows+buttonHeight*2, frameCopy.cols, frameCopy.type());
 	frameCopy.copyTo(processedFrame(Rect(Point(0,buttonHeight),frameCopy.size())));
 
 	
@@ -258,4 +287,3 @@ void Webcamtracking::processFrame(const cv::Mat& videoFrame, cv::Mat& processedF
 void Webcamtracking::showProcessedFrame(const cv::Mat&processedFrame){
 	imshow("Result", processedFrame);
 }
-
