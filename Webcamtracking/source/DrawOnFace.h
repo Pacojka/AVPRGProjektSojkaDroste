@@ -12,10 +12,10 @@ public:
 	void drawOnFace(cv::Mat& resultFrame, cv::Rect& faceRect, cv::Rect& leftEyeRect, cv::Rect& rightEyeRect, bool showHat, bool showGlasses);
 	void DrawOnFace::toggleHat();
 	void DrawOnFace::toggleGlasses();
+	void DrawOnFace::overlayImage(cv::Mat &background, cv::Mat &overlay);
 private:
 	cv::Mat glassesImg;
 	cv::Mat hatImg;
-	void overlayImage(cv::Mat &background, cv::Mat &overlay);
 	void drawGlasses(cv::Mat& resultFrame, cv::Rect& faceRect, cv::Rect& leftEyeRect, cv::Rect& rightEyeRect);
 	void drawHat(cv::Mat& resultFrame, cv::Rect& faceRect, cv::Rect& leftEyeRect, cv::Rect& rightEyeRect);
 	float scaleFactor;
